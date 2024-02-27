@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:to_do_app/screens/logins/on_boarding.dart';
+import 'package:to_do_app/utils/colors/app_colors.dart';
 
 import 'hello_screen.dart';
 void main(List<String> args) {
@@ -16,11 +18,11 @@ class MyApp extends StatelessWidget {
         ScreenUtil.init(context);
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(useMaterial3: false),
+          theme: ThemeData(useMaterial3: false,scaffoldBackgroundColor: AppColors.c_1A1A2F),
           home: child,
         );
       },
-      child: HelloScreen(),
+      child: OnBoardingScreen(),
     );
   }
 }

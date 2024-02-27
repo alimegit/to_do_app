@@ -82,15 +82,15 @@ flutter:
     - assets/images/
     - assets/icons/
   fonts:
-    - family: Inter
+    - family: Roboto
       fonts:
-        - asset: assets/fonts/inter/Inter-Black.otf
-        - asset: assets/fonts/inter/Inter-Bold.otf
-        - asset: assets/fonts/inter/Inter-Italic.otf
-        - asset: assets/fonts/inter/Inter-Light.otf
-        - asset: assets/fonts/inter/Inter-Medium.otf
-        - asset: assets/fonts/inter/Inter-Regular.otf
-        - asset: assets/fonts/inter/Inter-SemiBold.otf
+        - asset: assets/fonts/roboto/Roboto-Black.ttf
+        - asset: assets/fonts/inter/Roboto-Bold.ttf
+        - asset: assets/fonts/inter/Roboto-Italic.ttf
+        - asset: assets/fonts/inter/Roboto-Light.ttf
+        - asset: assets/fonts/inter/Roboto-Medium.ttf
+        - asset: assets/fonts/inter/Roboto-Regular.ttf
+        - asset: assets/fonts/inter/Roboto-ThinItalic.ttf
 
     # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
