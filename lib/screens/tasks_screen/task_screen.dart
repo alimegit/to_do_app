@@ -6,8 +6,6 @@ import 'package:to_do_app/data/local/local_database.dart';
 import 'package:to_do_app/data/local/storage_repository.dart';
 import 'package:to_do_app/data/models/category/category_model.dart';
 import 'package:to_do_app/data/models/task_model.dart';
-import 'package:to_do_app/screens/dialogs/category_dialog.dart';
-import 'package:to_do_app/screens/dialogs/update_task_dialog.dart';
 import 'package:to_do_app/screens/logins/register/register_screen.dart';
 import 'package:to_do_app/screens/routes.dart';
 import 'package:to_do_app/utils/colors/app_colors.dart';
@@ -27,7 +25,6 @@ class _TasksScreenState extends State<TasksScreen> {
   List<TaskModel> tasks = [];
   List<TaskModel> description = [];
 
-
   _init() async {
     tasks = await LocalDatabase.getAllTasks();
     setState(() {});
@@ -35,12 +32,14 @@ class _TasksScreenState extends State<TasksScreen> {
 
   StorageRepository name = StorageRepository();
   RegisterScreen nameController = RegisterScreen();
-  final TextEditingController titleController =TextEditingController(text: TaskModel.initialValue.title);
-  final TextEditingController descriptionController =TextEditingController(text: TaskModel.initialValue.description);
+  final TextEditingController titleController =
+      TextEditingController(text: TaskModel.initialValue.title);
+  final TextEditingController descriptionController =
+      TextEditingController(text: TaskModel.initialValue.description);
   int activeIndex = 0;
   final TextEditingController controller = TextEditingController();
   final UndoHistoryController removeController = UndoHistoryController();
-  final CategoryModel categoryModel  = CategoryModel.initialValue;
+  final CategoryModel categoryModel = CategoryModel.initialValue;
   String category = "work";
 
   @override
@@ -135,7 +134,8 @@ class _TasksScreenState extends State<TasksScreen> {
                   children: [
                     Column(
                       children: [
-                        ...List.generate(tasks.length , (index) {
+                        ...List.generate(tasks.length, (index)
+                        {
                           TaskModel taskModel = tasks[index];
                           return Padding(
                             padding: EdgeInsets.symmetric(
@@ -153,12 +153,14 @@ class _TasksScreenState extends State<TasksScreen> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Text(
-                                      taskModel.title,
+                                      taskModel.description,
                                       style: AppTextStyle.robotoRegular
                                           .copyWith(
                                               color: AppColors.white,
                                               fontSize: 14.sp),
                                     ),
+                                    Spacer(),
+                                    IconButton(onPressed: (){ Navigator.pushNamed(context,RouteNames.titleInfoScreen);}, icon:Icon(Icons.arrow_right,color: Colors.white,size: 24.sp,))
                                   ],
                                 ),
                               ),
@@ -210,37 +212,36 @@ class _TasksScreenState extends State<TasksScreen> {
                                       color: AppColors.transparent,
                                       child: TextField(
                                         onChanged: (v) {
-                                          taskModel = taskModel.copyWith(description: v);
+                                          taskModel = taskModel.copyWith(
+                                              description: v);
                                         },
                                         controller: descriptionController,
                                         decoration: const InputDecoration(
                                             hintText: "Mavzu",
                                             hintStyle:
-                                            TextStyle(color: Colors.grey)),
+                                                TextStyle(color: Colors.grey)),
                                       ),
                                     ),
-                                Material(
-                                  color: AppColors.transparent,
-                                  child: TextField(
-
-                                    keyboardType: TextInputType.text,
-                                    onChanged: (v) {
-                                      taskModel =taskModel.copyWith(title: v);
-                                    },
-                                    controller: titleController,
-                                    decoration: const InputDecoration(
-                                        hintText: "Title",
-                                        hintStyle:
-                                        TextStyle(color: Colors.grey)),
-                                  ),
-                                ),
-
-                              SizedBox(
+                                    Material(
+                                      color: AppColors.transparent,
+                                      child: TextField(
+                                        keyboardType: TextInputType.text,
+                                        onChanged: (v) {
+                                          taskModel =taskModel.copyWith(title: v);
+                                        },
+                                        controller: titleController,
+                                        decoration: const InputDecoration(
+                                            hintText: "Title",
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey)),
+                                      ),
+                                    ),
+                                    SizedBox(
                                       height: 30.h,
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         GestureDetector(
                                           onTap: () {
@@ -250,48 +251,74 @@ class _TasksScreenState extends State<TasksScreen> {
                                             showDialog(
                                                 context: context,
                                                 builder: (context) {
-                                                  return StatefulBuilder(builder: (context, setState) {
+                                                  return StatefulBuilder(
+                                                      builder:
+                                                          (context, setState) {
                                                     return Padding(
-                                                      padding: EdgeInsets.symmetric(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
                                                         horizontal: 15.w,
                                                       ),
                                                       child: Center(
                                                         child: Container(
-                                                          width: double.infinity,
+                                                          width:
+                                                              double.infinity,
                                                           height: 266.h,
                                                           decoration: BoxDecoration(
-                                                              color: AppColors.c_1A1A2F,
-                                                              borderRadius: BorderRadius.circular(20.r)),
+                                                              color: AppColors
+                                                                  .c_1A1A2F,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20.r)),
                                                           child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             children: [
                                                               Padding(
-                                                                padding:
-                                                                EdgeInsets.only(left: 12.w, top: 30.h, right: 12.w),
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        left: 12
+                                                                            .w,
+                                                                        top: 30
+                                                                            .h,
+                                                                        right: 12
+                                                                            .w),
                                                                 child: Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
                                                                   children: [
                                                                     Text(
                                                                       "Categoriya tanlang!",
                                                                       style: AppTextStyle.robotoMedium.copyWith(
-                                                                          color: AppColors.white, fontSize: 14.sp),
+                                                                          color: AppColors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              14.sp),
                                                                     ),
                                                                     TextButton(
-                                                                      onPressed: () {
-                                                                        Navigator.pushNamed(context,RouteNames.categoryScreen);
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pushNamed(
+                                                                            context,
+                                                                            RouteNames.categoryScreen);
                                                                       },
-                                                                      child: Row(
+                                                                      child:
+                                                                          Row(
                                                                         children: [
                                                                           Text(
                                                                             "Qo'shing",
-                                                                            style: AppTextStyle.robotoThin.copyWith(
-                                                                                color: AppColors.white,
-                                                                                fontSize: 11.sp),
+                                                                            style:
+                                                                                AppTextStyle.robotoThin.copyWith(color: AppColors.white, fontSize: 11.sp),
                                                                           ),
                                                                           SizedBox(
-                                                                            width: 3.w,
+                                                                            width:
+                                                                                3.w,
                                                                           ),
-                                                                          Icon(Icons.add_box),
+                                                                          Icon(Icons
+                                                                              .add_box),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -322,7 +349,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                                   ? AppColors.c_7A12FF
                                                   : AppColors.c_1A1A2F,
                                               borderRadius:
-                                              BorderRadius.circular(20.r),
+                                                  BorderRadius.circular(20.r),
                                               border: Border.all(
                                                   color: AppColors.c_7A12FF,
                                                   width: 1.w),
@@ -336,8 +363,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                                   "Category",
                                                   style: AppTextStyle.robotoThin
                                                       .copyWith(
-                                                      color:
-                                                      AppColors.white),
+                                                          color:
+                                                              AppColors.white),
                                                 ),
                                               ),
                                             ),
@@ -351,10 +378,10 @@ class _TasksScreenState extends State<TasksScreen> {
                                             setState(() async {
                                               activeIndex = 2;
                                               var dateTime =
-                                              await showDatePicker(
-                                                  context: context,
-                                                  firstDate: DateTime(2024),
-                                                  lastDate: DateTime(2035));
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      firstDate: DateTime(2024),
+                                                      lastDate: DateTime(2035));
                                               if (dateTime != null) {
                                                 taskModel = taskModel.copyWith(
                                                     deadline: dateTime);
@@ -367,7 +394,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                                   ? AppColors.c_7A12FF
                                                   : AppColors.c_1A1A2F,
                                               borderRadius:
-                                              BorderRadius.circular(20.r),
+                                                  BorderRadius.circular(20.r),
                                               border: Border.all(
                                                   color: AppColors.c_7A12FF,
                                                   width: 1.w),
@@ -381,8 +408,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                                   "Kun",
                                                   style: AppTextStyle.robotoThin
                                                       .copyWith(
-                                                      color:
-                                                      AppColors.white),
+                                                          color:
+                                                              AppColors.white),
                                                 ),
                                               ),
                                             ),
@@ -407,7 +434,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                                   ? AppColors.c_7A12FF
                                                   : AppColors.c_1A1A2F,
                                               borderRadius:
-                                              BorderRadius.circular(20.r),
+                                                  BorderRadius.circular(20.r),
                                               border: Border.all(
                                                   color: AppColors.c_7A12FF,
                                                   width: 1.w),
@@ -421,8 +448,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                                   "Vaqt",
                                                   style: AppTextStyle.robotoThin
                                                       .copyWith(
-                                                      color:
-                                                      AppColors.white),
+                                                          color:
+                                                              AppColors.white),
                                                 ),
                                               ),
                                             ),
@@ -435,26 +462,27 @@ class _TasksScreenState extends State<TasksScreen> {
                                     ),
                                     GestureDetector(
                                       onTap: (taskModel.deadline
-                                          .toString()
-                                          .isNotEmpty &&
-                                          taskModel.title.isNotEmpty)
+                                                  .toString()
+                                                  .isNotEmpty &&
+                                              taskModel.title.isNotEmpty)
                                           ? () async {
-                                        await LocalDatabase.insertTask(
-                                            taskModel);
-                                        setState(() {
-                                          activeIndex = 3;
-                                          titleController.clear();
-                                          descriptionController.clear();
-                                          Navigator.pop(context);
-                                        });
-                                      } : null,
+                                              await LocalDatabase.insertTask(
+                                                  taskModel);
+                                              setState(() {
+                                                activeIndex = 3;
+                                                titleController.clear();
+                                                descriptionController.clear();
+                                                Navigator.pop(context);
+                                              });
+                                            }
+                                          : null,
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: activeIndex == 3
                                               ? AppColors.c_7A12FF
                                               : AppColors.c_1A1A2F,
                                           borderRadius:
-                                          BorderRadius.circular(20.r),
+                                              BorderRadius.circular(20.r),
                                           border: Border.all(
                                               color: AppColors.c_7A12FF,
                                               width: 1.w),
@@ -467,7 +495,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                               "Set",
                                               style: AppTextStyle.robotoThin
                                                   .copyWith(
-                                                  color: AppColors.white),
+                                                      color: AppColors.white),
                                             ),
                                           ),
                                         ),
@@ -515,4 +543,4 @@ class _TasksScreenState extends State<TasksScreen> {
       ),
     );
   }
-}
+   }

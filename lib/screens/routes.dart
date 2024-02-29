@@ -6,6 +6,7 @@ import 'package:to_do_app/screens/home_screen/menu_screen.dart';
 import 'package:to_do_app/screens/logins/splash_screen.dart';
 import 'package:to_do_app/screens/logins/register/register_screen.dart';
 import 'package:to_do_app/screens/logins/welcome_screen.dart';
+import 'package:to_do_app/screens/title_info/title_info.dart';
 
 class AppRoute {
   static Route generateRoute(RouteSettings settings) {
@@ -37,6 +38,10 @@ class AppRoute {
         {
           return navigate(const CategoryScreen());
         }
+      case "/info_route":
+        {
+          return navigate(const TitleInfoScreen());
+        }
       default:
         {
           return navigate(
@@ -64,4 +69,5 @@ class RouteNames {
   static const String welcomeScreen = "/welcome_route";
   static const String registerScreen = "/register_route";
   static const String categoryScreen = "/category_route";
+  static const String titleInfoScreen = "/info_route";
 }
