@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/data/local/storage_repository.dart';
-import 'package:to_do_app/screens/home_screen/home_screen.dart';
+import 'package:to_do_app/screens/home_screen/menu_screen.dart';
 import 'package:to_do_app/screens/logins/register/button.dart';
 import 'package:to_do_app/screens/logins/register/textformfield.dart';
 import 'package:to_do_app/utils/colors/app_colors.dart';
 
 import '../../../utils/images/app_images.dart';
+import '../../tasks_screen/task_screen.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -55,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Center(
                   child: Column(
                     children: [
-                      Text(
+                     const Text(
                         "Ro'yhatdan o'ting!",
                         style: TextStyle(color: Colors.white, fontSize: 24),
                       ),
@@ -78,14 +79,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormFields(controller: nameController, fullText: "Ismingizni kiriting"),
                   SizedBox(height: 45.h,),
                   TextFormFields(controller: surNameController, fullText: "Familiyangizni kiriting"),
-                SizedBox(height: 70,),
+                SizedBox(height: 70.h,),
                 LogButton(text: "Ro'yhatdan o'tish",   onTap: () {
                   if (formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Ro'yhatdan muvaffaqiyatli o'tdingiz!")),
                     );
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) =>HomeScreen()));
+                        MaterialPageRoute(builder: (context) =>const TasksScreen()));
                     StorageRepository.setString(
                         key: 'name', value: nameController.text);
                     StorageRepository.setString(

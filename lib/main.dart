@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:to_do_app/screens/logins/on_boarding.dart';
+import 'package:to_do_app/screens/logins/splash_screen.dart';
+import 'package:to_do_app/screens/routes.dart';
+import 'package:to_do_app/screens/tab_box.dart';
 import 'package:to_do_app/utils/colors/app_colors.dart';
 
-import 'hello_screen.dart';
 void main(List<String> args) {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,12 +18,14 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         ScreenUtil.init(context);
         return MaterialApp(
+          initialRoute: RouteNames.helloScreen,
+          onGenerateRoute: AppRoute.generateRoute,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(useMaterial3: false,scaffoldBackgroundColor: AppColors.c_1A1A2F),
-          home: child,
+          home: TabBox(),
         );
       },
-      child: OnBoardingScreen(),
+      child: SplashScreen(),
     );
   }
 }

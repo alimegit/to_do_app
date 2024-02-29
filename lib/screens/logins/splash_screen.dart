@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:to_do_app/screens/logins/welcome_screen.dart';
+import 'package:to_do_app/screens/routes.dart';
 import 'package:to_do_app/utils/colors/app_colors.dart';
 
 import '../../utils/images/app_images.dart';
 
-class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _OnBoardingScreenState extends State<OnBoardingScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(
       const Duration(milliseconds: 500),
           () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return WelcomeScreen();
-            },
-          ),
-        );
+        Navigator.pushReplacementNamed(context, RouteNames.welcomeScreen);
       },
     );
     super.initState();

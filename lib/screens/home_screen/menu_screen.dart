@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/data/local/storage_repository.dart';
-import 'package:to_do_app/global_widgets/app_bar.dart';
 import 'package:to_do_app/screens/logins/register/register_screen.dart';
 import 'package:to_do_app/utils/colors/app_colors.dart';
 import 'package:to_do_app/utils/styles/app_text_style.dart';
 
 import '../../utils/images/app_images.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   StorageRepository name = StorageRepository();
   RegisterScreen nameController = RegisterScreen();
 
@@ -79,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: AppTextStyle.robotoMedium.copyWith(
                                 color: AppColors.white, fontSize: 16.sp),
                           ),
+
                         ],
                       ),
                     ),
