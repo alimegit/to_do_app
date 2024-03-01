@@ -29,7 +29,7 @@ class CategoryModel {
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
-      iconPath: json[CategoryModelConstants.iconPath] as String? ?? "",
+      iconPath: json[CategoryModelConstants.icon_Path] as String? ?? "",
       name: json[CategoryModelConstants.name] as String? ?? "",
       color:
       Color(int.parse(json[CategoryModelConstants.color] as String? ?? "")),
@@ -40,7 +40,7 @@ class CategoryModel {
   Map<String, dynamic> toJson() {
     return {
       CategoryModelConstants.name: name,
-      CategoryModelConstants.iconPath: iconPath,
+      CategoryModelConstants.icon_Path: iconPath,
       CategoryModelConstants.color: color.value.toString(),
     };
   }

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:to_do_app/data/local/task_model_constants.dart';
+import 'package:to_do_app/data/models/category/category_model.dart';
+import 'package:to_do_app/data/models/category/category_model_constants.dart';
 import 'package:to_do_app/data/models/task_model.dart';
 
 class LocalDatabase {
@@ -41,7 +43,7 @@ class LocalDatabase {
     );
   }
 
-  //--------------------------READY TO USE------------------------
+  //-------------------READY TO USE------------------------
 
   Future<void> _onCreate(Database db, int version) async {
     const idType = "INTEGER PRIMARY KEY AUTOINCREMENT";
@@ -74,6 +76,48 @@ class LocalDatabase {
     List json = await db.query(TaskModelConstants.tableName, orderBy: orderBy);
     return json.map((e) => TaskModel.fromJson(e)).toList();
   }
+
+  static Future<CategoryModel> insertCategory(CategoryModel categoryModel) async {
+    final db = await databaseInstance.database;
+    debugPrint("INITIAL ID:${categoryModel.id}");
+    int savedTaskID =
+    await db.insert(CategoryModelConstants.title, categoryModel.toJson());
+    debugPrint("SAVED ID:$savedTaskID");
+    return categoryModel.copyWith(id: savedTaskID);
+  }
+
+  static Future<List<CategoryModel>> getAllCategory() async {
+    final db = await databaseInstance.database;
+    String orderBy = "${CategoryModelConstants.id} DESC"; //"_id DESC"
+    List json = await db.query(CategoryModelConstants.title, orderBy: orderBy);
+    return json.map((e) => CategoryModel.fromJson(e)).toList();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   static Future<int> deleteTask(int id) async {
     final db = await databaseInstance.database;
@@ -115,13 +159,4 @@ class LocalDatabase {
     return updatedTaskId;
   }
 
-  static Future<List<TaskModel>> searchTasks(String query) async {
-    final db = await databaseInstance.database;
-    var json = await db.query(
-      TaskModelConstants.tableName,
-      where: "${TaskModelConstants.title} LIKE ?",
-      whereArgs: ["$query%"],
-    );
-    return json.map((e) => TaskModel.fromJson(e)).toList();
-  }
 }

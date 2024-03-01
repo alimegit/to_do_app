@@ -5,9 +5,7 @@ import 'package:to_do_app/data/local/storage_repository.dart';
 import 'package:to_do_app/screens/logins/register/register_screen.dart';
 import 'package:to_do_app/utils/colors/app_colors.dart';
 import 'package:to_do_app/utils/styles/app_text_style.dart';
-
 import '../../utils/images/app_images.dart';
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -22,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
-      value: SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
         statusBarColor: AppColors.transparent,
         statusBarIconBrightness: Brightness.dark,
       ),
@@ -46,7 +44,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        MenuBar(children: [
+                        MenuBar(
+                            children: [
                           Image.asset(AppImages.logo),
                         ]);
                       },
