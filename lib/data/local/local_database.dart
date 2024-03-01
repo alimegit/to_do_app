@@ -59,6 +59,15 @@ class LocalDatabase {
       ${TaskModelConstants.category} $textType,
       ${TaskModelConstants.priority} $intType
     )''');
+
+    await db.execute('''CREATE TABLE ${CategoryModelConstants.title} (
+      ${CategoryModelConstants.id} $idType,
+      ${CategoryModelConstants.name} $textType,
+      ${CategoryModelConstants.color} $textType,
+      ${CategoryModelConstants.icon_Path} $textType
+    )''');
+
+
   }
 
   static Future<TaskModel> insertTask(TaskModel taskModel) async {
@@ -69,6 +78,14 @@ class LocalDatabase {
     debugPrint("SAVED ID:$savedTaskID");
     return taskModel.copyWith(id: savedTaskID);
   }
+  static Future<CategoryModel> insertCategory(CategoryModel categoryModel) async {
+    final db = await databaseInstance.database;
+
+    int savedTaskID =
+    await db.insert(CategoryModelConstants.title, categoryModel.toJson());
+    debugPrint("SAVED ID:$savedTaskID");
+    return categoryModel.copyWith(id: savedTaskID);
+  }
 
   static Future<List<TaskModel>> getAllTasks() async {
     final db = await databaseInstance.database;
@@ -77,14 +94,7 @@ class LocalDatabase {
     return json.map((e) => TaskModel.fromJson(e)).toList();
   }
 
-  static Future<CategoryModel> insertCategory(CategoryModel categoryModel) async {
-    final db = await databaseInstance.database;
-    debugPrint("INITIAL ID:${categoryModel.id}");
-    int savedTaskID =
-    await db.insert(CategoryModelConstants.title, categoryModel.toJson());
-    debugPrint("SAVED ID:$savedTaskID");
-    return categoryModel.copyWith(id: savedTaskID);
-  }
+
 
   static Future<List<CategoryModel>> getAllCategory() async {
     final db = await databaseInstance.database;

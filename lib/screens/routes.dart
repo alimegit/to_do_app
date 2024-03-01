@@ -36,6 +36,7 @@ class AppRoute {
         }
       case "/category_route":
         {
+
           return navigate(const CategoryScreen());
         }
       case "/info_route":

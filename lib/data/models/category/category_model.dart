@@ -33,12 +33,13 @@ class CategoryModel {
       name: json[CategoryModelConstants.name] as String? ?? "",
       color:
       Color(int.parse(json[CategoryModelConstants.color] as String? ?? "")),
-      id: json[CategoryModelConstants.id] as int? ?? 0,
+      id: json[CategoryModelConstants.id] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+
       CategoryModelConstants.name: name,
       CategoryModelConstants.icon_Path: iconPath,
       CategoryModelConstants.color: color.value.toString(),
