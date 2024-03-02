@@ -11,7 +11,7 @@ class _GLoAppBarState extends State<GLoAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.c_2A3256,
       ),
     );

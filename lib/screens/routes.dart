@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:to_do_app/hello_screen.dart';
-import 'package:to_do_app/screens/category_screen/category_screen.dart';
 import 'package:to_do_app/screens/home_screen/menu_screen.dart';
 import 'package:to_do_app/screens/logins/splash_screen.dart';
 import 'package:to_do_app/screens/logins/register/register_screen.dart';
@@ -34,11 +33,11 @@ class AppRoute {
         {
           return navigate(const WelcomeScreen());
         }
-      case "/category_route":
-        {
-
-          return navigate(const CategoryScreen());
-        }
+      // case "/category_route":
+      //   {
+      //
+      //     return navigate( CategoryScreen(onSet: settings.arguments as Function?,),);
+      //   }
       case "/info_route":
         {
           return navigate(const TitleInfoScreen());
@@ -69,6 +68,5 @@ class RouteNames {
   static const String splashScreen = "/splash_route";
   static const String welcomeScreen = "/welcome_route";
   static const String registerScreen = "/register_route";
-  static const String categoryScreen = "/category_route";
   static const String titleInfoScreen = "/info_route";
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/data/models/category/category_model.dart';
 import 'package:to_do_app/data/models/task_model.dart';
+import 'package:to_do_app/utils/images/app_images.dart';
 
 List<CategoryModel> categories = [];
 
@@ -23,11 +24,11 @@ const List<Color> colors = [
   Colors.lime,
   Colors.amber,
 ];
-const List<Icon> icons = [
-  Icon(Icons.add),
-  Icon(Icons.work),
-  Icon(Icons.public),
-  Icon(Icons.save),
-  Icon(Icons.join_full),
-  Icon(Icons.wallet),
+const List<String> icons = [
+  AppImages.delete,
+  AppImages.menu,
+  AppImages.tasks,
+  AppImages.calendar,
+  AppImages.profileIcon,
+
 ];
