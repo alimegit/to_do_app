@@ -9,11 +9,16 @@ import 'package:to_do_app/utils/styles/app_text_style.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key,required this.iconnn, required this.texttt, required this.colorrr, });
+  const CategoryScreen({
+    super.key,
+    required this.iconnn,
+    required this.texttt,
+    required this.colorrr,
+  });
+
   final ValueChanged<String> iconnn;
   final ValueChanged<String> texttt;
   final ValueChanged<Color> colorrr;
-
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -25,15 +30,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Color color = Color(0xFF1D1D1D);
   String catIcon = "";
   List<CategoryModel> categories = [];
-  int selectedColor = 0;
-
-  int selectedIcon = 0;
+  int selectedColor = -1;
+  int selectedIcon = -1;
 
   _init() async {
     categories = await LocalDatabase.getAllCategory();
     debugPrint("CATEGORIES LENGTH ${categories.length}");
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -97,19 +100,33 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     (index) {
                       return ZoomTapAnimation(
                         onTap: () {
+                          selectedColor = index;
                           color = colors[index];
-                          setState(() {
-                              selectedColor = 1;
-                          });
+                          setState(() {});
                         },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 8.w),
-                          width: 60.w,
-                          height: 60.w,
-                          decoration: BoxDecoration(
-                            color: colors[index],
-                            shape: BoxShape.circle,
-                          ),
+                        child: Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8.w),
+                              width: 60.w,
+                              height: 60.w,
+                              decoration: BoxDecoration(
+                                color: colors[index],
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            if (selectedColor == index)
+                              Padding(
+                                padding: EdgeInsets.only(left: 25.w),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.done,
+                                    size: 30.sp,
+                                    color: AppColors.c_242443,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       );
                     },
@@ -126,13 +143,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   .copyWith(fontSize: 16.sp, color: Colors.white),
             ),
             SizedBox(
-              height: 60,
+              height: 10.h,
+            ),
+            SizedBox(
+              height: 30,
               child: ListView.builder(
                 itemCount: icons.length,
                 itemBuilder: (context, index) {
                   final iconItem = icons[index];
                   return ZoomTapAnimation(
                     onTap: () {
+                      selectedIcon = index;
                       catIcon = icons[index];
                       setState(() {});
                     },
@@ -143,7 +164,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                       ),
-                      child:SvgPicture.asset(icons[index] , width: 70,fit : BoxFit.cover),
+                      child: SvgPicture.asset(
+                        icons[index],
+                        color: selectedIcon == index ? Colors.green : null,
+                      ),
                     ),
                   );
                 },
@@ -153,7 +177,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             ),
             Spacer(),
             Padding(
-              padding:  EdgeInsets.fromLTRB(0.w,0.h,13.w,10.h),
+              padding: EdgeInsets.fromLTRB(0.w, 0.h, 13.w, 10.h),
               child: Row(
                 children: [
                   InkWell(
@@ -181,13 +205,31 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   InkWell(
                     borderRadius: BorderRadius.circular(8.r),
                     onTap: () async {
-                      categoryModel = categoryModel.copyWith(color: color,iconPath: catIcon,name: categoryNameController.text);
+                      categoryModel = categoryModel.copyWith(
+                          color: color,
+                          iconPath: catIcon,
+                          name: categoryNameController.text);
                       widget.iconnn.call(catIcon);
                       widget.texttt.call(categoryNameController.text);
                       widget.colorrr.call(color);
-                      setState(() {
-
-                      });
+                      setState(() {});
+                      if (selectedColor > -1 &&
+                          selectedIcon > -1 &&
+                          categoryNameController != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Muvaffaqqiyatli qo'shildi!"),
+                          ),
+                        );
+                        await Future.delayed(const Duration(seconds: 1));
+                        Navigator.pop(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Iltimos bo'sh maydon kiriting!"),
+                          ),
+                        );
+                      }
                     },
                     child: Container(
                       width: 80.w,

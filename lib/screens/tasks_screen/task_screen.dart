@@ -31,7 +31,8 @@ class _TasksScreenState extends State<TasksScreen> {
   _init() async {
     tasks = await LocalDatabase.getAllTasks();
     categories = await LocalDatabase.getAllCategory();
-    print("categories lenght : ${categories.length}");
+    if(!context.mounted) return ;
+    print("categories length : ${categories.length}");
     setState(() {});
   }
 
@@ -281,108 +282,124 @@ class _TasksScreenState extends State<TasksScreen> {
                                                                         20.r),
                                                             color: AppColors
                                                                 .c_1A1A2F),
-                                                        child: Expanded(
-                                                          child: SingleChildScrollView(
-                                                            child: Column(
-                                                              children: [
-                                                                SizedBox(
-                                                                  height: 15.h,
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              15.w),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
+                                                        child: Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      15.w),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: 15.h,
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(
+                                                                    "Categoriya tanlang",
+                                                                    style: AppTextStyle
+                                                                        .robotoMedium
+                                                                        .copyWith(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          14.sp,
+                                                                    ),
+                                                                  ),
+                                                                  TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator
+                                                                            .push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                            builder: (context) => CategoryScreen(iconnn:
+                                                                                (v) {
+                                                                              categoryModel = categoryModel.copyWith(iconPath: v);
+                                                                            }, texttt:
+                                                                                (v) {
+                                                                              categoryModel = categoryModel.copyWith(name: v);
+                                                                            }, colorrr:
+                                                                                (v) {
+                                                                              categoryModel = categoryModel.copyWith(color: v);
+                                                                            }),
+                                                                          ),
+                                                                        );
+                                                                        LocalDatabase.insertCategory(
+                                                                            categoryModel);
+                                                                        setState(
+                                                                            () {
+                                                                          _init();
+                                                                        });
+                                                                      },
+                                                                      child:
+                                                                          Row(
+                                                                        children: [
+                                                                          Icon(
+                                                                            Icons.add_box,
+                                                                            color:
+                                                                                CupertinoColors.activeGreen,
+                                                                          ),
+                                                                          Text(
+                                                                            "Qo'shing",
+                                                                            style:
+                                                                                AppTextStyle.robotoMedium.copyWith(
+                                                                              color: Colors.white,
+                                                                              fontSize: 11.sp,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),),
+                                                                ],
+                                                              ),
+                                                         Column(
+                                                            children: List.generate(categories.length + 1, (index) {
+                                                              if (index == categories.length) {
+                                                                return TextButton(
+                                                                  onPressed: () {},
+                                                                  child: Column(
                                                                     children: [
-                                                                      Text(
-                                                                        "Categoriya tanlang",
-                                                                        style: AppTextStyle
-                                                                            .robotoMedium
-                                                                            .copyWith(
-                                                                          color: Colors
-                                                                              .white,
-                                                                          fontSize:
-                                                                              14.sp,
-                                                                        ),
-                                                                      ),
-                                                                      TextButton(
-                                                                          onPressed:
-                                                                              () {
-                                                                            Navigator
-                                                                                .push(
-                                                                              context,
-                                                                              MaterialPageRoute(
-                                                                                builder: (context) => CategoryScreen(
-                                                                                    iconnn: (v){
-                                                                                      categoryModel = categoryModel.copyWith(iconPath: v);
-                                                                                    },
-                                                                                    texttt: (v){
-                                                                                      categoryModel = categoryModel.copyWith(name: v);
-                                                                                    },
-                                                                                    colorrr: (v){
-                                                                                      categoryModel = categoryModel.copyWith(color: v);
-                                                                                    }),
-                                                                              ),
-                                                                            );
-                                                                            LocalDatabase.insertCategory(categoryModel);
-                                                                            setState((){
-                                                                              _init();
-                                                                            });
-                                                                          },
-                                                                          child:
-                                                                              Row(
-                                                                            children: [
-                                                                              Icon(
-                                                                                Icons.add_box,
-                                                                                color:
-                                                                                    CupertinoColors.activeGreen,
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width:
-                                                                                    5.w,
-                                                                              ),
-                                                                              Text(
-                                                                                "Qo'shing",
-                                                                                style:
-                                                                                    AppTextStyle.robotoMedium.copyWith(
-                                                                                  color: Colors.white,
-                                                                                  fontSize: 11.sp,
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ))
+                                                                      Icon(Icons.add),
+                                                                      Text("Add New"),
                                                                     ],
                                                                   ),
-                                                                ),
-                                                                ...List.generate(
-                                                                    categories
-                                                                        .length,
-                                                                    (index) =>
-                                                                        Container(
-                                                                            child:
-                                                                                Column(
+                                                                );
+                                                              } else {
+                                                                return Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(8),
+                                                                        color: categories[index].color,
+                                                                      ),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.all(8.0),
+                                                                        child: Column(
                                                                           children: [
+                                                                            SvgPicture.asset(categories[index].iconPath),
                                                                             Text(
-                                                                              categories[index]
-                                                                                  .name,
-                                                                              style:
-                                                                                  TextStyle(
-                                                                                color:
-                                                                                    Colors.white,
-                                                                                fontSize:
-                                                                                    20.sp,
+                                                                              categories[index].name,
+                                                                              style: TextStyle(
+                                                                                color: Colors.white,
+                                                                                fontSize: 20.sp,
                                                                               ),
                                                                             ),
-                                                                            SvgPicture.asset(categories[index].iconPath)
-                                                            
                                                                           ],
-                                                                        )))
-                                                              ],
-                                                            ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              }
+                                                            }),
+                                                          )
+
+                                                          ],
                                                           ),
                                                         ),
                                                       ),
