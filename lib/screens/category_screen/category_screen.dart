@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:to_do_app/data/local/local_database.dart';
 import 'package:to_do_app/data/models/category/category_model.dart';
 import 'package:to_do_app/screens/category_screen/local_category.dart';
 import 'package:to_do_app/utils/colors/app_colors.dart';
@@ -11,14 +10,14 @@ import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({
     super.key,
-    required this.iconnn,
-    required this.texttt,
-    required this.colorrr,
+    this.iconnn,
+    this.texttt,
+    this.colorrr,
   });
 
-  final ValueChanged<String> iconnn;
-  final ValueChanged<String> texttt;
-  final ValueChanged<Color> colorrr;
+  final ValueChanged<String>? iconnn;
+  final ValueChanged<String>? texttt;
+  final ValueChanged<Color>? colorrr;
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -27,16 +26,16 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   TextEditingController categoryNameController = TextEditingController();
   CategoryModel categoryModel = CategoryModel.initialValue;
-  Color color = Color(0xFF1D1D1D);
+  Color color = const  Color(0xFF1D1D1D);
   String catIcon = "";
   List<CategoryModel> categories = [];
   int selectedColor = -1;
   int selectedIcon = -1;
 
-  _init() async {
-    categories = await LocalDatabase.getAllCategory();
-    debugPrint("CATEGORIES LENGTH ${categories.length}");
-  }
+  // _init() async {
+  //   categories = await LocalDatabase.getAllCategory();
+  //   debugPrint("CATEGORIES LENGTH ${categories.length}");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +69,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             Padding(
               padding: EdgeInsets.only(top: 35.h, left: 15, right: 15),
               child: TextField(
+                style: const TextStyle(color: AppColors.white),
                 textInputAction: TextInputAction.next,
                 controller: categoryNameController,
                 decoration: InputDecoration(
@@ -81,7 +81,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               ),
             ),
             SizedBox(
-              height: 33,
+              height: 33.h,
             ),
             Text(
               "Category color :",
@@ -150,7 +150,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               child: ListView.builder(
                 itemCount: icons.length,
                 itemBuilder: (context, index) {
-                  final iconItem = icons[index];
+                  // final iconItem = icons[index];
                   return ZoomTapAnimation(
                     onTap: () {
                       selectedIcon = index;
@@ -161,7 +161,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 8.w),
                       width: 60.w,
                       height: 60.w,
-                      decoration: BoxDecoration(
+                      decoration: const  BoxDecoration(
                         shape: BoxShape.circle,
                       ),
                       child: SvgPicture.asset(
@@ -175,7 +175,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 scrollDirection: Axis.horizontal,
               ),
             ),
-            Spacer(),
+           const  Spacer(),
             Padding(
               padding: EdgeInsets.fromLTRB(0.w, 0.h, 13.w, 10.h),
               child: Row(
@@ -201,7 +201,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     borderRadius: BorderRadius.circular(8.r),
                     onTap: () async {
@@ -209,19 +209,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           color: color,
                           iconPath: catIcon,
                           name: categoryNameController.text);
-                      widget.iconnn.call(catIcon);
-                      widget.texttt.call(categoryNameController.text);
-                      widget.colorrr.call(color);
+                      widget.iconnn!.call(catIcon);
+                      widget.texttt!.call(categoryNameController.text);
+                      widget.colorrr!.call(color);
                       setState(() {});
                       if (selectedColor > -1 &&
                           selectedIcon > -1 &&
-                          categoryNameController != null) {
+                          categoryNameController.text.isNotEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Muvaffaqqiyatli qo'shildi!"),
                           ),
                         );
                         await Future.delayed(const Duration(seconds: 1));
+                        if(!context.mounted) return;
                         Navigator.pop(context);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

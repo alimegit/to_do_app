@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:to_do_app/hello_screen.dart';
+import 'package:to_do_app/screens/category_screen/category_screen.dart';
 import 'package:to_do_app/screens/home_screen/menu_screen.dart';
 import 'package:to_do_app/screens/logins/splash_screen.dart';
 import 'package:to_do_app/screens/logins/register/register_screen.dart';
 import 'package:to_do_app/screens/logins/welcome_screen.dart';
+import 'package:to_do_app/screens/tasks_screen/task_screen.dart';
 import 'package:to_do_app/screens/title_info/title_info.dart';
 
 class AppRoute {
@@ -18,6 +20,11 @@ class AppRoute {
       case "/splash_route":
         {
           return navigate( const SplashScreen());
+
+        }
+      case "/task_route":
+        {
+          return navigate(TasksScreen(infos: settings.arguments as VoidCallback?));
 
         }
       case "/register_route":
@@ -38,10 +45,6 @@ class AppRoute {
       //
       //     return navigate( CategoryScreen(onSet: settings.arguments as Function?,),);
       //   }
-      case "/info_route":
-        {
-          return navigate(const TitleInfoScreen());
-        }
       default:
         {
           return navigate(
@@ -69,4 +72,5 @@ class RouteNames {
   static const String welcomeScreen = "/welcome_route";
   static const String registerScreen = "/register_route";
   static const String titleInfoScreen = "/info_route";
+  static const String taskScreen = "/task_route";
 }

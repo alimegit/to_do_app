@@ -10,12 +10,15 @@ import 'package:to_do_app/data/models/task_model.dart';
 import 'package:to_do_app/screens/category_screen/category_screen.dart';
 import 'package:to_do_app/screens/logins/register/register_screen.dart';
 import 'package:to_do_app/screens/routes.dart';
+import 'package:to_do_app/screens/title_info/title_info.dart';
 import 'package:to_do_app/utils/colors/app_colors.dart';
 import 'package:to_do_app/utils/styles/app_text_style.dart';
 import '../../utils/images/app_images.dart';
 
 class TasksScreen extends StatefulWidget {
-  const TasksScreen({super.key});
+  const TasksScreen({super.key, this.infos});
+
+  final VoidCallback? infos;
 
   @override
   State<TasksScreen> createState() => _TasksScreenState();
@@ -31,13 +34,13 @@ class _TasksScreenState extends State<TasksScreen> {
   _init() async {
     tasks = await LocalDatabase.getAllTasks();
     categories = await LocalDatabase.getAllCategory();
-    if(!context.mounted) return ;
-    print("categories length : ${categories.length}");
+    if (!context.mounted) return;
+    // print("categories length : ${categories.length}");`
     setState(() {});
   }
 
   StorageRepository name = StorageRepository();
-  RegisterScreen nameController = RegisterScreen();
+  RegisterScreen nameController = const RegisterScreen();
   final TextEditingController titleController =
       TextEditingController(text: TaskModel.initialValue.title);
   final TextEditingController descriptionController =
@@ -57,7 +60,7 @@ class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
-      value: SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
         statusBarColor: AppColors.transparent,
         statusBarIconBrightness: Brightness.dark,
       ),
@@ -75,8 +78,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.only(
-                    top: 27.h, left: 10.w, right: 16.w, bottom: 27.h),
+                padding: EdgeInsets.only(top: 27.h, left: 10.w, right: 16.w, bottom: 27.h),
                 child: Row(
                   children: [
                     IconButton(
@@ -110,16 +112,16 @@ class _TasksScreenState extends State<TasksScreen> {
                         children: [
                           Text(
                             "Salom , Ali",
-                            style: AppTextStyle.robotoRegular.copyWith(
-                                color: AppColors.white, fontSize: 14.sp),
+                            style: AppTextStyle.robotoRegular
+                                .copyWith(color: AppColors.white, fontSize: 14.sp),
                           ),
                           SizedBox(
                             height: 5.h,
                           ),
                           Text(
                             "Rejalar bilan tanishing!",
-                            style: AppTextStyle.robotoMedium.copyWith(
-                                color: AppColors.white, fontSize: 16.sp),
+                            style: AppTextStyle.robotoMedium
+                                .copyWith(color: AppColors.white, fontSize: 16.sp),
                           ),
                         ],
                       ),
@@ -145,8 +147,7 @@ class _TasksScreenState extends State<TasksScreen> {
                           (index) {
                             TaskModel taskModel = tasks[index];
                             return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15.h, vertical: 10.h),
+                              padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 10.h),
                               child: Container(
                                 height: 45.h,
                                 width: double.infinity,
@@ -162,15 +163,20 @@ class _TasksScreenState extends State<TasksScreen> {
                                       Text(
                                         taskModel.description,
                                         style: AppTextStyle.robotoRegular
-                                            .copyWith(
-                                                color: AppColors.white,
-                                                fontSize: 14.sp),
+                                            .copyWith(color: AppColors.white, fontSize: 14.sp),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       IconButton(
                                           onPressed: () {
-                                            Navigator.pushNamed(context,
-                                                RouteNames.titleInfoScreen);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TitleInfoScreen(text: tasks[index]),
+                                                ));
+                                            if (widget.infos != null) {
+                                              widget.infos!.call();
+                                            }
                                           },
                                           icon: Icon(
                                             Icons.arrow_right,
@@ -206,21 +212,19 @@ class _TasksScreenState extends State<TasksScreen> {
                           child: Center(
                             child: Container(
                               width: double.infinity,
-                              height: 266.h,
+                              height: 276.h,
                               decoration: BoxDecoration(
                                   color: AppColors.c_242443,
                                   borderRadius: BorderRadius.circular(20)),
                               child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 30.h, right: 12.w, left: 12.w),
+                                padding: EdgeInsets.only(top: 30.h, right: 12.w, left: 12.w),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Reja qo'shing!",
-                                      style: AppTextStyle.robotoMedium.copyWith(
-                                          color: AppColors.white,
-                                          fontSize: 14.sp),
+                                      style: AppTextStyle.robotoMedium
+                                          .copyWith(color: AppColors.white, fontSize: 14.sp),
                                     ),
                                     SizedBox(
                                       height: 15.h,
@@ -228,178 +232,178 @@ class _TasksScreenState extends State<TasksScreen> {
                                     Material(
                                       color: AppColors.transparent,
                                       child: TextField(
+                                        style: TextStyle(color: AppColors.white),
+                                        maxLength: 40,
                                         onChanged: (v) {
-                                          taskModel = taskModel.copyWith(
-                                              description: v);
+                                          taskModel = taskModel.copyWith(description: v);
                                         },
                                         controller: descriptionController,
                                         decoration: const InputDecoration(
                                             hintText: "Mavzu",
-                                            hintStyle:
-                                                TextStyle(color: Colors.grey)),
+                                            hintStyle: TextStyle(color: Colors.grey)),
                                       ),
                                     ),
                                     Material(
                                       color: AppColors.transparent,
                                       child: TextField(
+                                        style: TextStyle(color: AppColors.white),
                                         keyboardType: TextInputType.text,
                                         onChanged: (v) {
-                                          taskModel =
-                                              taskModel.copyWith(title: v);
+                                          taskModel = taskModel.copyWith(title: v);
                                         },
                                         controller: titleController,
                                         decoration: const InputDecoration(
                                             hintText: "Title",
-                                            hintStyle:
-                                                TextStyle(color: Colors.grey)),
+                                            hintStyle: TextStyle(color: Colors.grey)),
                                       ),
                                     ),
                                     SizedBox(
                                       height: 30.h,
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         GestureDetector(
                                           onTap: () {
                                             showDialog(
                                                 context: context,
-                                                builder:
-                                                    (BuildContext context) {
+                                                builder: (BuildContext context) {
                                                   return Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 15.w),
+                                                    padding: EdgeInsets.symmetric(horizontal: 15.w),
                                                     child: Center(
                                                       child: Container(
                                                         width: double.infinity,
                                                         height: 336,
                                                         decoration: BoxDecoration(
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.r),
-                                                            color: AppColors
-                                                                .c_1A1A2F),
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      15.w),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              SizedBox(
-                                                                height: 15.h,
-                                                              ),
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    "Categoriya tanlang",
-                                                                    style: AppTextStyle
-                                                                        .robotoMedium
-                                                                        .copyWith(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          14.sp,
-                                                                    ),
+                                                                BorderRadius.circular(20.r),
+                                                            color: AppColors.c_1A1A2F),
+                                                        child: SingleChildScrollView(
+                                                          child: Padding(
+                                                            padding: EdgeInsets.symmetric(
+                                                                horizontal: 15.w),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment.start,
+                                                              children: [
+                                                                SizedBox(
+                                                                  height: 15.h,
+                                                                ),
+                                                                Text(
+                                                                  "Categoriya tanlang",
+                                                                  style: AppTextStyle.robotoMedium
+                                                                      .copyWith(
+                                                                    color: Colors.white,
+                                                                    fontSize: 14.sp,
                                                                   ),
-                                                                  TextButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator
-                                                                            .push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                            builder: (context) => CategoryScreen(iconnn:
-                                                                                (v) {
-                                                                              categoryModel = categoryModel.copyWith(iconPath: v);
-                                                                            }, texttt:
-                                                                                (v) {
-                                                                              categoryModel = categoryModel.copyWith(name: v);
-                                                                            }, colorrr:
-                                                                                (v) {
-                                                                              categoryModel = categoryModel.copyWith(color: v);
-                                                                            }),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10.h,
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 280,
+                                                                  width: double.infinity,
+                                                                  child: GridView.count(
+                                                                    crossAxisCount: 4,
+                                                                    mainAxisSpacing: 10,
+                                                                    crossAxisSpacing: 10,
+                                                                    children: List.generate(
+                                                                        categories.length + 1,
+                                                                        (index) {
+                                                                      if (index ==
+                                                                          categories.length) {
+                                                                        return TextButton(
+                                                                          onPressed: ()  async {
+                                                                            Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                builder: (context) =>
+                                                                                    CategoryScreen(
+                                                                                        iconnn:
+                                                                                            (v) {
+                                                                                  categoryModel =
+                                                                                      categoryModel
+                                                                                          .copyWith(
+                                                                                              iconPath:
+                                                                                                  v);
+                                                                                }, texttt: (v) {
+                                                                                  categoryModel =
+                                                                                      categoryModel
+                                                                                          .copyWith(
+                                                                                              name:
+                                                                                                  v);
+                                                                                }, colorrr: (v) {
+                                                                                  categoryModel =
+                                                                                      categoryModel
+                                                                                          .copyWith(
+                                                                                              color:
+                                                                                                  v);
+                                                                                }),
+                                                                              ),
+                                                                            );
+                                                                          await   LocalDatabase.insertCategory(
+                                                                                    categoryModel);
+                                                                            setState(() {
+                                                                              _init();
+                                                                            });
+                                                                          },
+                                                                          child: const Column(
+                                                                            children: [
+                                                                              Icon(
+                                                                                Icons.add,
+                                                                              ),
+                                                                              Text("Add New"),
+                                                                            ],
                                                                           ),
                                                                         );
-                                                                        LocalDatabase.insertCategory(
-                                                                            categoryModel);
-                                                                        setState(
-                                                                            () {
-                                                                          _init();
-                                                                        });
-                                                                      },
-                                                                      child:
-                                                                          Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.add_box,
-                                                                            color:
-                                                                                CupertinoColors.activeGreen,
-                                                                          ),
-                                                                          Text(
-                                                                            "Qo'shing",
-                                                                            style:
-                                                                                AppTextStyle.robotoMedium.copyWith(
-                                                                              color: Colors.white,
-                                                                              fontSize: 11.sp,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),),
-                                                                ],
-                                                              ),
-                                                         Column(
-                                                            children: List.generate(categories.length + 1, (index) {
-                                                              if (index == categories.length) {
-                                                                return TextButton(
-                                                                  onPressed: () {},
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Icon(Icons.add),
-                                                                      Text("Add New"),
-                                                                    ],
-                                                                  ),
-                                                                );
-                                                              } else {
-                                                                return Column(
-                                                                  children: [
-                                                                    Container(
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(8),
-                                                                        color: categories[index].color,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.all(8.0),
-                                                                        child: Column(
+                                                                      } else {
+                                                                        return Column(
                                                                           children: [
-                                                                            SvgPicture.asset(categories[index].iconPath),
-                                                                            Text(
-                                                                              categories[index].name,
-                                                                              style: TextStyle(
-                                                                                color: Colors.white,
-                                                                                fontSize: 20.sp,
+                                                                            Container(
+                                                                              decoration:
+                                                                                  BoxDecoration(
+                                                                                borderRadius:
+                                                                                    BorderRadius
+                                                                                        .circular(
+                                                                                            8),
+                                                                                color: categories[
+                                                                                        index]
+                                                                                    .color,
+                                                                              ),
+                                                                              child: Padding(
+                                                                                padding:
+                                                                                    const EdgeInsets
+                                                                                        .all(8.0),
+                                                                                child: Column(
+                                                                                  children: [
+                                                                                    SvgPicture.asset(
+                                                                                        categories[
+                                                                                                index]
+                                                                                            .iconPath),
+                                                                                    Text(
+                                                                                      categories[
+                                                                                              index]
+                                                                                          .name,
+                                                                                      style:
+                                                                                          TextStyle(
+                                                                                        color: Colors
+                                                                                            .white,
+                                                                                        fontSize:
+                                                                                            14.sp,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ],
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                );
-                                                              }
-                                                            }),
-                                                          )
-
-                                                          ],
+                                                                        );
+                                                                      }
+                                                                    }),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -415,23 +419,18 @@ class _TasksScreenState extends State<TasksScreen> {
                                               color: activeIndex == 1
                                                   ? AppColors.c_7A12FF
                                                   : AppColors.c_1A1A2F,
-                                              borderRadius:
-                                                  BorderRadius.circular(20.r),
-                                              border: Border.all(
-                                                  color: AppColors.c_7A12FF,
-                                                  width: 1.w),
+                                              borderRadius: BorderRadius.circular(20.r),
+                                              border:
+                                                  Border.all(color: AppColors.c_7A12FF, width: 1.w),
                                             ),
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 8.w,
-                                                  vertical: 12.h),
+                                                  horizontal: 8.w, vertical: 12.h),
                                               child: Center(
                                                 child: Text(
                                                   "Category",
                                                   style: AppTextStyle.robotoThin
-                                                      .copyWith(
-                                                          color:
-                                                              AppColors.white),
+                                                      .copyWith(color: AppColors.white),
                                                 ),
                                               ),
                                             ),
@@ -444,14 +443,12 @@ class _TasksScreenState extends State<TasksScreen> {
                                           onTap: () {
                                             setState(() async {
                                               activeIndex = 2;
-                                              var dateTime =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      firstDate: DateTime(2024),
-                                                      lastDate: DateTime(2035));
+                                              var dateTime = await showDatePicker(
+                                                  context: context,
+                                                  firstDate: DateTime(2024),
+                                                  lastDate: DateTime(2035));
                                               if (dateTime != null) {
-                                                taskModel = taskModel.copyWith(
-                                                    deadline: dateTime);
+                                                taskModel = taskModel.copyWith(deadline: dateTime);
                                               }
                                             });
                                           },
@@ -460,23 +457,18 @@ class _TasksScreenState extends State<TasksScreen> {
                                               color: activeIndex == 2
                                                   ? AppColors.c_7A12FF
                                                   : AppColors.c_1A1A2F,
-                                              borderRadius:
-                                                  BorderRadius.circular(20.r),
-                                              border: Border.all(
-                                                  color: AppColors.c_7A12FF,
-                                                  width: 1.w),
+                                              borderRadius: BorderRadius.circular(20.r),
+                                              border:
+                                                  Border.all(color: AppColors.c_7A12FF, width: 1.w),
                                             ),
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 25.w,
-                                                  vertical: 12.h),
+                                                  horizontal: 25.w, vertical: 12.h),
                                               child: Center(
                                                 child: Text(
                                                   "Kun",
                                                   style: AppTextStyle.robotoThin
-                                                      .copyWith(
-                                                          color:
-                                                              AppColors.white),
+                                                      .copyWith(color: AppColors.white),
                                                 ),
                                               ),
                                             ),
@@ -491,8 +483,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                               activeIndex = 4;
                                               showTimePicker(
                                                   context: context,
-                                                  initialTime: const TimeOfDay(
-                                                      hour: 8, minute: 00));
+                                                  initialTime:
+                                                      const TimeOfDay(hour: 8, minute: 00));
                                             });
                                           },
                                           child: Container(
@@ -500,23 +492,18 @@ class _TasksScreenState extends State<TasksScreen> {
                                               color: activeIndex == 4
                                                   ? AppColors.c_7A12FF
                                                   : AppColors.c_1A1A2F,
-                                              borderRadius:
-                                                  BorderRadius.circular(20.r),
-                                              border: Border.all(
-                                                  color: AppColors.c_7A12FF,
-                                                  width: 1.w),
+                                              borderRadius: BorderRadius.circular(20.r),
+                                              border:
+                                                  Border.all(color: AppColors.c_7A12FF, width: 1.w),
                                             ),
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 30.w,
-                                                  vertical: 12.h),
+                                                  horizontal: 30.w, vertical: 12.h),
                                               child: Center(
                                                 child: Text(
                                                   "Vaqt",
                                                   style: AppTextStyle.robotoThin
-                                                      .copyWith(
-                                                          color:
-                                                              AppColors.white),
+                                                      .copyWith(color: AppColors.white),
                                                 ),
                                               ),
                                             ),
@@ -528,18 +515,18 @@ class _TasksScreenState extends State<TasksScreen> {
                                       height: 8.h,
                                     ),
                                     GestureDetector(
-                                      onTap: (taskModel.deadline
-                                                  .toString()
-                                                  .isNotEmpty &&
+                                      onTap: (taskModel.deadline.toString().isNotEmpty &&
                                               taskModel.title.isNotEmpty)
                                           ? () async {
-                                              await LocalDatabase.insertTask(
-                                                  taskModel);
+                                              await LocalDatabase.insertTask(taskModel);
                                               setState(() {
                                                 activeIndex = 3;
                                                 titleController.clear();
                                                 descriptionController.clear();
                                                 Navigator.pop(context);
+                                                if (widget.infos != null) {
+                                                  widget.infos!.call();
+                                                }
                                               });
                                             }
                                           : null,
@@ -548,11 +535,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                           color: activeIndex == 3
                                               ? AppColors.c_7A12FF
                                               : AppColors.c_1A1A2F,
-                                          borderRadius:
-                                              BorderRadius.circular(20.r),
-                                          border: Border.all(
-                                              color: AppColors.c_7A12FF,
-                                              width: 1.w),
+                                          borderRadius: BorderRadius.circular(20.r),
+                                          border: Border.all(color: AppColors.c_7A12FF, width: 1.w),
                                         ),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
@@ -561,8 +545,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                             child: Text(
                                               "Set",
                                               style: AppTextStyle.robotoThin
-                                                  .copyWith(
-                                                      color: AppColors.white),
+                                                  .copyWith(color: AppColors.white),
                                             ),
                                           ),
                                         ),
@@ -581,8 +564,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: AppColors.c_7A12FF,
-                      borderRadius: BorderRadius.circular(20.sp)),
+                      color: AppColors.c_7A12FF, borderRadius: BorderRadius.circular(20.sp)),
                   child: Center(
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
@@ -595,8 +577,8 @@ class _TasksScreenState extends State<TasksScreen> {
                           ),
                           Text(
                             "Yangi reja qo'shish",
-                            style: AppTextStyle.robotoMedium.copyWith(
-                                color: AppColors.white, fontSize: 14.sp),
+                            style: AppTextStyle.robotoMedium
+                                .copyWith(color: AppColors.white, fontSize: 14.sp),
                           ),
                         ],
                       ),
